@@ -1,0 +1,25 @@
+#!/bin/bash
+
+if [ ! -f "~/.python-gitlab.cfg" ]; then
+    cat > ~/.python-gitlab.cfg << __EOF__
+[global]
+default = bugtracker_kiwitcms_org
+ssl_verify = false
+timeout = 5
+
+[bugtracker_kiwitcms_org]
+url = http://bugtracker.kiwitcms.org
+private_token = ypCa3Dzb23o5nvsixwPA
+api_version = 4
+__EOF__
+fi
+
+# TODO: wait for the container to initialize b/c it takes around 3 minutes
+
+
+# Repo: 'root/kiwitcms', Project ID: 1
+gitlab project create --name kiwitcms
+
+# http://bugtracker.kiwitcms.org/root/kiwitcms/-/issues/1
+# http://bugtracker.kiwitcms.org/root/kiwitcms/issues/1
+gitlab project-issue create --project-id 1 --title "Hello GitLab" --description "Created via CLI"
